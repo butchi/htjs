@@ -492,7 +492,7 @@ var Index = function () {
   _createClass(Index, [{
     key: 'initialize',
     value: function initialize() {
-      this.htjsCreator = new _Htjs2.default();
+      this.htjs = new _Htjs2.default();
 
       document.body.append($div([$div({
         "class": 'wrapper'
@@ -500,7 +500,7 @@ var Index = function () {
         "class": "content"
       })(["これは", $a({
         "href": 'http://example.com',
-        "targer": '_blank'
+        "target": '_blank'
       })('アンカー'), "の", $span('テスト'), "です。", $br(), $span({
         style: {
           "color": '#f00',
