@@ -1,5 +1,5 @@
 import ns from '../module/ns';
-import HtjsCreator from '../module/Htjs';
+import Htjs from '../module/Htjs';
 
 export default class Index {
   constructor(opts = {}) {
@@ -7,7 +7,7 @@ export default class Index {
   }
 
   initialize() {
-    this.htjsCreator = new HtjsCreator();
+    this.htjs = new Htjs();
 
     document.body.append(
       $div(
