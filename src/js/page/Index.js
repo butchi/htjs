@@ -22,7 +22,7 @@ export default class Index {
               "これは",
               $a({
                 "href": 'http://example.com',
-                "targer": '_blank',
+                "target": '_blank',
               })('アンカー'),
               "の",
               $span('テスト'),
