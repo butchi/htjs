@@ -84,6 +84,10 @@ var Htjs = function () {
         return _this.$span(arg);
       };
 
+      global.$p = function (arg) {
+        return _this.$p(arg);
+      };
+
       global.$br = function (arg) {
         return _this.$br(arg);
       };
@@ -116,7 +120,15 @@ var Htjs = function () {
     key: '$span',
     value: function $span(arg) {
       return this.element({
-        tagName: 'div',
+        tagName: 'span',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$p',
+    value: function $p(arg) {
+      return this.element({
+        tagName: 'p',
         arg: arg
       });
     }
@@ -242,10 +254,18 @@ var HtjsTemplate = function () {
       var attribute = opts.attribute;
 
       return function (arg) {
+        var contentArr = [];
+
+        if (arg == null) {} else if (typeof arg === 'string') {
+          contentArr = [arg];
+        } else if (arg instanceof Array) {
+          contentArr = arg;
+        } else if ((typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object') {}
+
         return new HtjsElement({
           tagName: tagName,
           attribute: attribute,
-          contentArr: [arg]
+          contentArr: contentArr
         });
       };
     }
@@ -276,7 +296,7 @@ var HtjsElement = function () {
   }, {
     key: 'create',
     value: function create() {
-      this.elm = document.createElement('div');
+      this.elm = document.createElement(this.tagName);
       this.setAttribute({
         attribute: this.attribute
       });
@@ -295,7 +315,24 @@ var HtjsElement = function () {
 
       var attrLi = this.attribute || {};
       Object.keys(attrLi).forEach(function (key) {
-        _this2.elm.setAttribute(key, attrLi[key]);
+        if (key === 'style') {
+          (function () {
+            var styleArr = [];
+            var styleLi = attrLi[key];
+
+            Object.keys(styleLi).forEach(function (propName) {
+              var prop = styleLi[propName];
+
+              styleArr.push(propName + ': ' + prop + ';');
+            });
+
+            var style = styleArr.join(' ');
+
+            _this2.elm.setAttribute(key, style);
+          })();
+        } else {
+          _this2.elm.setAttribute(key, attrLi[key]);
+        }
       });
     }
   }, {
@@ -309,7 +346,7 @@ var HtjsElement = function () {
 
       contentArr.forEach(function (content) {
         if (content == null) {} else if (typeof content === 'string') {
-          _this3.elm.innerText += content;
+          _this3.elm.innerHTML += content;
         } else if (content instanceof HtjsElement) {
           _this3.elm.appendChild(content.elm);
         }
@@ -458,9 +495,19 @@ var Index = function () {
       this.htjsCreator = new _Htjs2.default();
 
       document.body.append($div([$div({
-        "class": 'test',
-        "id": 'div1'
-      })('hoge'), $div('piyo'), $div('fuga')]).elm);
+        "class": 'wrapper'
+      })([$h1('HTJS(仮)'), $p({
+        "class": "content"
+      })(["これは", $a({
+        "href": 'http://example.com',
+        "targer": '_blank'
+      })('アンカー'), "の", $span('テスト'), "です。", $br(), $span({
+        style: {
+          "color": '#f00',
+          "font-weight": 'bold',
+          "font-size": '20px'
+        }
+      })('スタイルも効いた！'), $span('うまくいってよかった！')])])]).elm);
     }
   }]);
 

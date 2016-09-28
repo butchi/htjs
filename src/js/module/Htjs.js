@@ -16,6 +16,10 @@ export default class Htjs {
       return this.$span(arg);
     };
 
+    global.$p = (arg) => {
+      return this.$p(arg);
+    };
+
     global.$br = (arg) => {
       return this.$br(arg);
     };
@@ -45,7 +49,14 @@ export default class Htjs {
 
   $span(arg) {
     return this.element({
-      tagName: 'div',
+      tagName: 'span',
+      arg: arg,
+    });
+  }
+
+  $p(arg) {
+    return this.element({
+      tagName: 'p',
       arg: arg,
     });
   }
@@ -138,10 +149,20 @@ class HtjsTemplate {
     var attribute = opts.attribute;
 
     return function(arg) {
+      var contentArr = [];
+
+      if(arg == null) {
+      } else if(typeof arg === 'string') {
+        contentArr = [arg];
+      } else if(arg instanceof Array) {
+        contentArr = arg;
+      } else if(typeof arg === 'object') {
+      }
+
       return new HtjsElement({
         tagName,
         attribute,
-        contentArr: [arg],
+        contentArr,
       });
     }
   }
@@ -162,7 +183,7 @@ class HtjsElement {
   }
 
   create() {
-    this.elm = document.createElement('div');
+    this.elm = document.createElement(this.tagName);
     this.setAttribute({
       attribute: this.attribute,
     });
@@ -176,7 +197,22 @@ class HtjsElement {
   setAttribute(opts = {}) {
     var attrLi = this.attribute || {};
     Object.keys(attrLi).forEach((key) => {
-      this.elm.setAttribute(key, attrLi[key]);
+      if(key === 'style') {
+        let styleArr = [];
+        let styleLi = attrLi[key];
+
+        Object.keys(styleLi).forEach((propName) => {
+          var prop = styleLi[propName];
+
+          styleArr.push(`${propName}: ${prop};`);
+        });
+
+        let style = styleArr.join(' ');
+
+        this.elm.setAttribute(key, style);
+      } else {
+        this.elm.setAttribute(key, attrLi[key]);
+      }
     });
   }
 
@@ -186,7 +222,7 @@ class HtjsElement {
     contentArr.forEach((content) => {
       if(content == null) {
       } else if(typeof content === 'string') {
-        this.elm.innerText += content;
+        this.elm.innerHTML += content;
       } else if(content instanceof HtjsElement) {
         this.elm.appendChild(content.elm);
       }
