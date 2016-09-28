@@ -1,4 +1,117 @@
 export default class Htjs {
+  constructor(opts = {}) {
+    this.globalize();
+  }
+
+  globalize() {
+    global.$h1 = (arg) => {
+      return this.$h1(arg);
+    };
+
+    global.$div = (arg) => {
+      return this.$div(arg);
+    };
+
+    global.$span = (arg) => {
+      return this.$span(arg);
+    };
+
+    global.$br = (arg) => {
+      return this.$br(arg);
+    };
+
+    global.$a = (arg) => {
+      return this.$a(arg);
+    };
+
+    global.$img = (arg) => {
+      return this.$img(arg);
+    };
+  }
+
+  $h1(arg) {
+    return this.element({
+      tagName: 'h1',
+      arg: arg,
+    });
+  }
+
+  $div(arg) {
+    return this.element({
+      tagName: 'div',
+      arg: arg,
+    });
+  }
+
+  $span(arg) {
+    return this.element({
+      tagName: 'div',
+      arg: arg,
+    });
+  }
+
+  $br(arg) {
+    return this.element({
+      tagName: 'br',
+      arg: arg,
+    });
+  }
+
+  $a(arg) {
+    return this.element({
+      tagName: 'a',
+      arg: arg,
+    });
+  }
+
+  $img(arg) {
+    return this.element({
+      tagName: 'a',
+      arg: arg,
+    });
+  }
+
+  /*
+    param: opts.tagName
+    param: opts.arg
+  */
+  element(opts = {}) {
+    var htjsObj =  new HtjsObject();
+
+    var arg = opts.arg;
+
+    var tagName = opts.tagName || 'div';
+    var attribute;
+
+    if(arg == null) {
+      return htjsObj.createElement({
+        tagName,
+        attribute: null,
+        contentArr: null,
+      });
+    } else if(typeof arg === 'string') {
+      return htjsObj.createElement({
+        tagName,
+        attribute: null,
+        contentArr: [arg],
+      });
+    } else if(arg instanceof Array) {
+      return htjsObj.createElement({
+        tagName,
+        attribute: null,
+        contentArr: arg,
+      });
+    } else if(typeof arg === 'object') {
+      attribute = arg;
+      return htjsObj.template({
+        tagName,
+        attribute,
+      });
+    }
+  }
+}
+
+class HtjsObject {
   constructor() {
     this.initialize();
   }

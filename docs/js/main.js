@@ -45,11 +45,14 @@ var Main = function () {
 _ns2.default.main = new Main();
 
 },{"./module/Router":3,"./module/ns":4}],2:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -57,12 +60,149 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Htjs = function () {
   function Htjs() {
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
     _classCallCheck(this, Htjs);
+
+    this.globalize();
+  }
+
+  _createClass(Htjs, [{
+    key: 'globalize',
+    value: function globalize() {
+      var _this = this;
+
+      global.$h1 = function (arg) {
+        return _this.$h1(arg);
+      };
+
+      global.$div = function (arg) {
+        return _this.$div(arg);
+      };
+
+      global.$span = function (arg) {
+        return _this.$span(arg);
+      };
+
+      global.$br = function (arg) {
+        return _this.$br(arg);
+      };
+
+      global.$a = function (arg) {
+        return _this.$a(arg);
+      };
+
+      global.$img = function (arg) {
+        return _this.$img(arg);
+      };
+    }
+  }, {
+    key: '$h1',
+    value: function $h1(arg) {
+      return this.element({
+        tagName: 'h1',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$div',
+    value: function $div(arg) {
+      return this.element({
+        tagName: 'div',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$span',
+    value: function $span(arg) {
+      return this.element({
+        tagName: 'div',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$br',
+    value: function $br(arg) {
+      return this.element({
+        tagName: 'br',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$a',
+    value: function $a(arg) {
+      return this.element({
+        tagName: 'a',
+        arg: arg
+      });
+    }
+  }, {
+    key: '$img',
+    value: function $img(arg) {
+      return this.element({
+        tagName: 'a',
+        arg: arg
+      });
+    }
+
+    /*
+      param: opts.tagName
+      param: opts.arg
+    */
+
+  }, {
+    key: 'element',
+    value: function element() {
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var htjsObj = new HtjsObject();
+
+      var arg = opts.arg;
+
+      var tagName = opts.tagName || 'div';
+      var attribute;
+
+      if (arg == null) {
+        return htjsObj.createElement({
+          tagName: tagName,
+          attribute: null,
+          contentArr: null
+        });
+      } else if (typeof arg === 'string') {
+        return htjsObj.createElement({
+          tagName: tagName,
+          attribute: null,
+          contentArr: [arg]
+        });
+      } else if (arg instanceof Array) {
+        return htjsObj.createElement({
+          tagName: tagName,
+          attribute: null,
+          contentArr: arg
+        });
+      } else if ((typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object') {
+        attribute = arg;
+        return htjsObj.template({
+          tagName: tagName,
+          attribute: attribute
+        });
+      }
+    }
+  }]);
+
+  return Htjs;
+}();
+
+exports.default = Htjs;
+
+var HtjsObject = function () {
+  function HtjsObject() {
+    _classCallCheck(this, HtjsObject);
 
     this.initialize();
   }
 
-  _createClass(Htjs, [{
+  _createClass(HtjsObject, [{
     key: 'initialize',
     value: function initialize() {}
   }, {
@@ -81,10 +221,8 @@ var Htjs = function () {
     }
   }]);
 
-  return Htjs;
+  return HtjsObject;
 }();
-
-exports.default = Htjs;
 
 var HtjsTemplate = function () {
   function HtjsTemplate() {
@@ -151,19 +289,19 @@ var HtjsElement = function () {
   }, {
     key: 'setAttribute',
     value: function setAttribute() {
-      var _this = this;
+      var _this2 = this;
 
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var attrLi = this.attribute || {};
       Object.keys(attrLi).forEach(function (key) {
-        _this.elm.setAttribute(key, attrLi[key]);
+        _this2.elm.setAttribute(key, attrLi[key]);
       });
     }
   }, {
     key: 'innerHtjs',
     value: function innerHtjs() {
-      var _this2 = this;
+      var _this3 = this;
 
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -171,9 +309,9 @@ var HtjsElement = function () {
 
       contentArr.forEach(function (content) {
         if (content == null) {} else if (typeof content === 'string') {
-          _this2.elm.innerText += content;
+          _this3.elm.innerText += content;
         } else if (content instanceof HtjsElement) {
-          _this2.elm.appendChild(content.elm);
+          _this3.elm.appendChild(content.elm);
         }
       });
     }
@@ -182,6 +320,7 @@ var HtjsElement = function () {
   return HtjsElement;
 }();
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],3:[function(require,module,exports){
 'use strict';
 
@@ -284,14 +423,11 @@ var Common = function () {
 exports.default = Common;
 
 },{"../module/ns":4}],6:[function(require,module,exports){
-(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -319,42 +455,7 @@ var Index = function () {
   _createClass(Index, [{
     key: 'initialize',
     value: function initialize() {
-      global.$div = function (arg) {
-        var htjs = new _Htjs2.default();
-
-        var tagName = 'div';
-        var attribute;
-        var content;
-
-        var attribute;
-        var option;
-
-        if (arg == null) {
-          return htjs.createElement({
-            tagName: tagName,
-            attribute: null,
-            contentArr: null
-          });
-        } else if (typeof arg === 'string') {
-          return htjs.createElement({
-            tagName: tagName,
-            attribute: null,
-            contentArr: [arg]
-          });
-        } else if (arg instanceof Array) {
-          return htjs.createElement({
-            tagName: tagName,
-            attribute: null,
-            contentArr: arg
-          });
-        } else if ((typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object') {
-          var _attribute = arg;
-          return htjs.template({
-            tagName: tagName,
-            attribute: _attribute
-          });
-        }
-      };
+      this.htjsCreator = new _Htjs2.default();
 
       document.body.append($div([$div({
         "class": 'test',
@@ -368,5 +469,4 @@ var Index = function () {
 
 exports.default = Index;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../module/Htjs":2,"../module/ns":4}]},{},[1]);
