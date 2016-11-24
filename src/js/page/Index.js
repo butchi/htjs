@@ -7,7 +7,9 @@ export default class Index {
   }
 
   initialize() {
-    this.htjs = new Htjs();
+    this.htjs = new Htjs({
+      prefixStr: '$',
+    });
 
     document.querySelector('.wrapper').append(
       $div(

@@ -1,84 +1,129 @@
+const tagNameArr = [
+  "a",
+  "abbr",
+  "address",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "bdi",
+  "bdo",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "command",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "div",
+  "dl",
+  "doctype",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "footer",
+  "form",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "head",
+  "header",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "keygen",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "menu",
+  "meta",
+  "meter",
+  "nav",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "rp",
+  "rt",
+  "ruby",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "track",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr"
+];
+
 export default class Htjs {
   constructor(opts = {}) {
-    this.globalize();
+    this.globalize(opts);
   }
 
-  globalize() {
-    global.$h1 = (arg) => {
-      return this.$h1(arg);
-    };
-
-    global.$div = (arg) => {
-      return this.$div(arg);
-    };
-
-    global.$span = (arg) => {
-      return this.$span(arg);
-    };
-
-    global.$p = (arg) => {
-      return this.$p(arg);
-    };
-
-    global.$br = (arg) => {
-      return this.$br(arg);
-    };
-
-    global.$a = (arg) => {
-      return this.$a(arg);
-    };
-
-    global.$img = (arg) => {
-      return this.$img(arg);
-    };
-  }
-
-  $h1(arg) {
-    return this.element({
-      tagName: 'h1',
-      arg: arg,
-    });
-  }
-
-  $div(arg) {
-    return this.element({
-      tagName: 'div',
-      arg: arg,
-    });
-  }
-
-  $span(arg) {
-    return this.element({
-      tagName: 'span',
-      arg: arg,
-    });
-  }
-
-  $p(arg) {
-    return this.element({
-      tagName: 'p',
-      arg: arg,
-    });
-  }
-
-  $br(arg) {
-    return this.element({
-      tagName: 'br',
-      arg: arg,
-    });
-  }
-
-  $a(arg) {
-    return this.element({
-      tagName: 'a',
-      arg: arg,
-    });
-  }
-
-  $img(arg) {
-    return this.element({
-      tagName: 'a',
-      arg: arg,
+  globalize(opts) {
+    let prefixStr = opts.prefixStr || '';
+    tagNameArr.forEach((tagName) => {
+      global[`${prefixStr}${tagName}`] = (arg) => {
+        return this.element({
+          tagName,
+          arg,
+        });
+      }
     });
   }
 
