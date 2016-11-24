@@ -17,7 +17,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Main = function () {
   function Main() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Main);
 
@@ -52,7 +52,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -60,7 +60,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Htjs = function () {
   function Htjs() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Htjs);
 
@@ -165,7 +165,7 @@ var Htjs = function () {
   }, {
     key: 'element',
     value: function element() {
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var htjsObj = new HtjsObject();
 
@@ -220,14 +220,14 @@ var HtjsObject = function () {
   }, {
     key: 'template',
     value: function template() {
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       return new HtjsTemplate(opts);
     }
   }, {
     key: 'createElement',
     value: function createElement() {
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       return new HtjsElement(opts);
     }
@@ -238,7 +238,7 @@ var HtjsObject = function () {
 
 var HtjsTemplate = function () {
   function HtjsTemplate() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, HtjsTemplate);
 
@@ -248,7 +248,7 @@ var HtjsTemplate = function () {
   _createClass(HtjsTemplate, [{
     key: 'createGenerator',
     value: function createGenerator() {
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var tagName = opts.tagName;
       var attribute = opts.attribute;
@@ -276,7 +276,7 @@ var HtjsTemplate = function () {
 
 var HtjsElement = function () {
   function HtjsElement() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, HtjsElement);
 
@@ -311,7 +311,7 @@ var HtjsElement = function () {
     value: function setAttribute() {
       var _this2 = this;
 
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var attrLi = this.attribute || {};
       Object.keys(attrLi).forEach(function (key) {
@@ -340,7 +340,7 @@ var HtjsElement = function () {
     value: function innerHtjs() {
       var _this3 = this;
 
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var contentArr = opts.contentArr || [];
 
@@ -442,7 +442,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Common = function () {
   function Common() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Common);
 
@@ -482,7 +482,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Index = function () {
   function Index() {
-    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Index);
 
@@ -494,8 +494,8 @@ var Index = function () {
     value: function initialize() {
       this.htjs = new _Htjs2.default();
 
-      document.body.append($div([$div({
-        "class": 'wrapper'
+      document.querySelector('.wrapper').append($div([$div({
+        "class": 'test'
       })([$h1('HTJS(仮)'), $p({
         "class": "content"
       })(["これは", $a({

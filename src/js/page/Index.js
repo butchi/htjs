@@ -9,11 +9,11 @@ export default class Index {
   initialize() {
     this.htjs = new Htjs();
 
-    document.body.append(
+    document.querySelector('.wrapper').append(
       $div(
         [
           $div({
-            "class": 'wrapper',
+            "class": 'test',
           })([
             $h1('HTJS(仮)'),
             $p({
