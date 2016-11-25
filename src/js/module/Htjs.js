@@ -28,7 +28,6 @@ const tagNameArr = [
   "dfn",
   "div",
   "dl",
-  "doctype",
   "dt",
   "em",
   "embed",
@@ -136,11 +135,25 @@ export default class Htjs {
 
     let tagName = opts.tagName || 'div';
 
-
-      return;
+    if(tagName == null) {
+      tagName = 'div';
+    } else if(tagName === 'html') {
+      let arg = argArr[0];
+      if(typeof arg === 'object') {
+        let htmlElm = document.querySelector('html');
+        Object.keys(arg).forEach((key) => {
+          htmlElm.setAttribute(key, arg[key]);
+        });
+      }
+      return this.setup(opts);
+    } else if(tagName === 'head' || tagName === 'body') {
+      return this.setup({
+        tagName,
+        argArr,
+      });
+    } else {
+      return this.setup(opts);
     }
-
-    return this.setup(opts);
   }
 
   setup(opts = {}) {
