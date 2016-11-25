@@ -9,15 +9,15 @@ export default class Router {
   }
 
   initialize() {
-    const $body = $('body');
+    const bodyElm = document.querySelector('body');
 
     this.pageCommon = new PageCommon();
 
-    if($body.hasClass('page-index')) {
+    if(bodyElm.classList.contains('page-index')) {
       this.pageIndex = new PageIndex();
     }
 
-    if($body.hasClass('page-pug-github')) {
+    if(bodyElm.classList.contains('page-pug-github')) {
       this.pagePugGithub = new PagePugGithub();
     }
   }

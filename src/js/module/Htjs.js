@@ -147,10 +147,10 @@ export default class Htjs {
       }
       return this.setup(opts);
     } else if(tagName === 'head' || tagName === 'body') {
-      return this.setup({
+      document.querySelector(tagName).appendChild(this.setup({
         tagName,
         argArr,
-      });
+      }).elm);
     } else {
       return this.setup(opts);
     }

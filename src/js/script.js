@@ -11,7 +11,7 @@ class Main {
   }
 
   initialize() {
-    $(() => {
+    document.addEventListener('DOMContentLoaded', () => {
       this.router = new Router();
     });
   }

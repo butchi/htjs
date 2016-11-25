@@ -1,50 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _ns = require('./module/ns');
-
-var _ns2 = _interopRequireDefault(_ns);
-
-var _Router = require('./module/Router');
-
-var _Router2 = _interopRequireDefault(_Router);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Main = function () {
-  function Main() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, Main);
-
-    console.log('Hello, world!');
-
-    this.initialize();
-
-    console.log('Thanks, world!');
-  }
-
-  _createClass(Main, [{
-    key: 'initialize',
-    value: function initialize() {
-      var _this = this;
-
-      $(function () {
-        _this.router = new _Router2.default();
-      });
-    }
-  }]);
-
-  return Main;
-}();
-
-_ns2.default.main = new Main();
-
-},{"./module/Router":3,"./module/ns":4}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -125,10 +79,10 @@ var Htjs = function () {
 
         if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
       } else if (tagName === 'head' || tagName === 'body') {
-        return this.setup({
+        document.querySelector(tagName).appendChild(this.setup({
           tagName: tagName,
           argArr: argArr
-        });
+        }).elm);
       } else {
         return this.setup(opts);
       }
@@ -301,7 +255,7 @@ var HtjsElement = function () {
 }();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -340,15 +294,15 @@ var Router = function () {
   _createClass(Router, [{
     key: 'initialize',
     value: function initialize() {
-      var $body = $('body');
+      var bodyElm = document.querySelector('body');
 
       this.pageCommon = new _Common2.default();
 
-      if ($body.hasClass('page-index')) {
+      if (bodyElm.classList.contains('page-index')) {
         this.pageIndex = new _Index2.default();
       }
 
-      if ($body.hasClass('page-pug-github')) {
+      if (bodyElm.classList.contains('page-pug-github')) {
         this.pagePugGithub = new _PugGithub2.default();
       }
     }
@@ -359,7 +313,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":5,"../page/Index":6,"../page/PugGithub":7,"./ns":4}],4:[function(require,module,exports){
+},{"../page/Common":4,"../page/Index":5,"../page/PugGithub":6,"./ns":3}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,7 +328,7 @@ window.licker = window.licker || {};
 var ns = window.licker;
 exports.default = ns;
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -444,10 +398,7 @@ var Common = function () {
       link({ rel: "canonical", href: url })(),
 
       // stylesheet
-      link({ rel: "stylesheet", href: "css/style.css" })()), body({ class: 'page-index' })(div({ id: "fb-root" }), script('\n(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.7&appId=";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, \'script\', \'facebook-jssdk\'));\n        '), div({ class: "wrapper" })(), script('\n<script>\n  (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\n  ga(\'create\', \'UA-XXXXXXX-X\', \'auto\');\n  ga(\'send\', \'pageview\');\n</script>\n        '),
-
-      // javascript
-      script({ src: "js/main.js" })()));
+      link({ rel: "stylesheet", href: "css/style.css" })()), body(div({ id: "fb-root" }), script('\n(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.7&appId=";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, \'script\', \'facebook-jssdk\'));\n        '), div({ class: "wrapper" })(), script('\n(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\nm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\nga(\'create\', \'UA-XXXXXXX-X\', \'auto\');\nga(\'send\', \'pageview\');\n        ')));
     }
   }]);
 
@@ -456,7 +407,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/Htjs":2,"../module/ns":4}],6:[function(require,module,exports){
+},{"../module/Htjs":1,"../module/ns":3}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -508,7 +459,7 @@ var Index = function () {
 
 exports.default = Index;
 
-},{"../module/Htjs":2,"../module/ns":4}],7:[function(require,module,exports){
+},{"../module/Htjs":1,"../module/ns":3}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -545,22 +496,8 @@ var PugGithub = function () {
         prefixStr: ''
       });
 
+      // from https://github.com/pugjs/pug
       document.querySelector('html').appendChild(html({ lang: "ja" })(head(title("Htjs"), script({ type: "text/javascript" })("if (foo) bar(1 + 5)")), body(h1("Htjs - node template engine"), div({ id: "container", class: "col" })(p("すごいぞ！"), p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！")))).elm);
-      // document.querySelector('html').innerHTML = html({lang: "ja"})(
-      //   head(
-      //     title("Htjs"),
-      //     script({type: "text/javascript"})(
-      //       "if (foo) bar(1 + 5)"
-      //     )
-      //   ),
-      //   body(
-      //     h1("Htjs - node template engine"),
-      //     div({id: "container", class: "col"})(
-      //       p("すごいぞ！"),
-      //       p("Htjsはかんたんできょうりょくなてんぷれーとえんじんだぞ！")
-      //     )
-      //   )
-      // );
     }
   }]);
 
@@ -569,4 +506,50 @@ var PugGithub = function () {
 
 exports.default = PugGithub;
 
-},{"../module/Htjs":2,"../module/ns":4}]},{},[1]);
+},{"../module/Htjs":1,"../module/ns":3}],7:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ns = require('./module/ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
+var _Router = require('./module/Router');
+
+var _Router2 = _interopRequireDefault(_Router);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Main = function () {
+  function Main() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Main);
+
+    console.log('Hello, world!');
+
+    this.initialize();
+
+    console.log('Thanks, world!');
+  }
+
+  _createClass(Main, [{
+    key: 'initialize',
+    value: function initialize() {
+      var _this = this;
+
+      document.addEventListener('DOMContentLoaded', function () {
+        _this.router = new _Router2.default();
+      });
+    }
+  }]);
+
+  return Main;
+}();
+
+_ns2.default.main = new Main();
+
+},{"./module/Router":2,"./module/ns":3}]},{},[7]);
