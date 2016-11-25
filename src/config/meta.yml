@@ -1,6 +1,6 @@
-site_name: web starter
-description: web-starter web page.
-keywords: []
-# url: http://example.com/
-# facebook_app_id": 
-# ogp_image_url: http://example.com/ogp.png
+site_name: すごい技術のサイト
+description: とにかくすごい技術
+keywords: ['すごい', '技術']
+url: http://butchi.github.io/htjs/
+facebook_app_id": '903742642995033'
+ogp_image_url: http://butchi.github.io/htjs/ogp.png
