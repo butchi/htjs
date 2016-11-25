@@ -76,10 +76,14 @@ var Htjs = function () {
 
       var prefixStr = opts.prefixStr || '';
       tagNameArr.forEach(function (tagName) {
-        global["" + prefixStr + tagName] = function (arg) {
+        global["" + prefixStr + tagName] = function () {
+          for (var _len = arguments.length, argArr = Array(_len), _key = 0; _key < _len; _key++) {
+            argArr[_key] = arguments[_key];
+          }
+
           return _this.element({
             tagName: tagName,
-            arg: arg
+            argArr: argArr
           });
         };
       });
@@ -87,7 +91,7 @@ var Htjs = function () {
 
     /*
       param: opts.tagName
-      param: opts.arg
+      param: opts.argArr
     */
 
   }, {
@@ -95,36 +99,73 @@ var Htjs = function () {
     value: function element() {
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var htjsObj = new HtjsObject();
-
-      var arg = opts.arg;
+      var argArr = opts.argArr;
 
       var tagName = opts.tagName || 'div';
-      var attribute;
 
-      if (arg == null) {
-        return htjsObj.createElement({
+      if (argArr.length === 0) {
+        return new HtjsElement({
           tagName: tagName,
-          attribute: null,
-          contentArr: null
+          content: null
         });
-      } else if (typeof arg === 'string') {
-        return htjsObj.createElement({
+      } else if (argArr.length === 1) {
+        var _ret = function () {
+          var arg = argArr[0];
+          if (arg == 'null') {
+            return {
+              v: new HtjsElement({
+                tagName: tagName
+              }).create({
+                content: null
+              })
+            };
+          } else if (typeof arg === 'string') {
+            return {
+              v: new HtjsElement({
+                tagName: tagName
+              }).create({
+                content: argArr
+              })
+            };
+          } else if (arg instanceof Array) {
+            return {
+              v: new HtjsElement({
+                tagName: tagName
+              }).create({
+                content: arg
+              })
+            };
+          } else if (arg instanceof HtjsElement) {
+            return {
+              v: new HtjsElement({
+                tagName: tagName
+              }).create({
+                content: argArr
+              })
+            };
+          } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
+            return {
+              v: function v() {
+                for (var _len2 = arguments.length, content = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                  content[_key2] = arguments[_key2];
+                }
+
+                return new HtjsElement({
+                  tagName: tagName,
+                  attribute: arg
+                }).create({
+                  content: content
+                });
+              }
+            };
+          }
+        }();
+
+        if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+      } else if (argArr.length > 1) {
+        return new HtjsElement({
           tagName: tagName,
-          attribute: null,
-          contentArr: [arg]
-        });
-      } else if (arg instanceof Array) {
-        return htjsObj.createElement({
-          tagName: tagName,
-          attribute: null,
-          contentArr: arg
-        });
-      } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
-        attribute = arg;
-        return htjsObj.template({
-          tagName: tagName,
-          attribute: attribute
+          content: argArr
         });
       }
     }
@@ -135,104 +176,38 @@ var Htjs = function () {
 
 exports.default = Htjs;
 
-var HtjsObject = function () {
-  function HtjsObject() {
-    _classCallCheck(this, HtjsObject);
-
-    this.initialize();
-  }
-
-  _createClass(HtjsObject, [{
-    key: "initialize",
-    value: function initialize() {}
-  }, {
-    key: "template",
-    value: function template() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      return new HtjsTemplate(opts);
-    }
-  }, {
-    key: "createElement",
-    value: function createElement() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      return new HtjsElement(opts);
-    }
-  }]);
-
-  return HtjsObject;
-}();
-
-var HtjsTemplate = function () {
-  function HtjsTemplate() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, HtjsTemplate);
-
-    return this.createGenerator(opts);
-  }
-
-  _createClass(HtjsTemplate, [{
-    key: "createGenerator",
-    value: function createGenerator() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var tagName = opts.tagName;
-      var attribute = opts.attribute;
-
-      return function (arg) {
-        var contentArr = [];
-
-        if (arg == null) {} else if (typeof arg === 'string') {
-          contentArr = [arg];
-        } else if (arg instanceof Array) {
-          contentArr = arg;
-        } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {}
-
-        return new HtjsElement({
-          tagName: tagName,
-          attribute: attribute,
-          contentArr: contentArr
-        });
-      };
-    }
-  }]);
-
-  return HtjsTemplate;
-}();
-
 var HtjsElement = function () {
   function HtjsElement() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, HtjsElement);
 
-    this.tagName = opts.tagName || 'div';
-    this.attribute = opts.attribute || {};
-    this.contentArr = opts.contentArr || [];
-
-    this.initialize();
+    this.initialize(opts);
   }
 
   _createClass(HtjsElement, [{
     key: "initialize",
     value: function initialize() {
-      this.create();
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      this.tagName = opts.tagName || 'div';
+      this.elm = document.createElement(this.tagName);
+      this.attribute = opts.attribute || {};
+
       this.setAttribute();
     }
   }, {
     key: "create",
     value: function create() {
-      this.elm = document.createElement(this.tagName);
-      this.setAttribute({
-        attribute: this.attribute
-      });
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var content = opts.content || [];
+
       this.innerHtjs({
-        contentArr: this.contentArr
+        content: content
       });
 
-      return this.elm;
+      return this;
     }
   }, {
     key: "setAttribute",
@@ -262,6 +237,8 @@ var HtjsElement = function () {
           _this2.elm.setAttribute(key, attrLi[key]);
         }
       });
+
+      return this.create;
     }
   }, {
     key: "innerHtjs",
@@ -270,9 +247,9 @@ var HtjsElement = function () {
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      var contentArr = opts.contentArr || [];
+      var content = opts.content || [];
 
-      contentArr.forEach(function (content) {
+      content.forEach(function (content) {
         if (content == null) {} else if (typeof content === 'string') {
           _this3.elm.innerHTML += content;
         } else if (content instanceof HtjsElement) {
@@ -421,23 +398,16 @@ var Index = function () {
     key: 'initialize',
     value: function initialize() {
       this.htjs = new _Htjs2.default({
-        prefixStr: '$'
+        prefixStr: ''
       });
 
-      document.querySelector('.wrapper').append($div([$div({
-        "class": 'test'
-      })([$h1('HTJS(仮)'), $p({
-        "class": "content"
-      })(["これは", $a({
-        "href": 'http://example.com',
-        "target": '_blank'
-      })('アンカー'), "の", $span('テスト'), "です。", $br(), $span({
+      document.querySelector('.wrapper').append(div(div({ class: "test" })(h1("HTJS(仮)"), p({ class: "content" })("これは", a({ href: "http://example.com", target: "_blank" })("アンカー"), "の", span("テ", "ス", "ト"), "です。", br()), span({
         style: {
-          "color": '#f00',
-          "font-weight": 'bold',
-          "font-size": '20px'
+          "color": "#f00",
+          "font-weight": "bold",
+          "font-size": "20px"
         }
-      })('スタイルも効いた！'), $span('うまくいってよかった！')])])]).elm);
+      })("スタイルも効いた！"), span("うまくいってよかった！"))).elm);
     }
   }]);
 
