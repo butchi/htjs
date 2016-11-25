@@ -81,6 +81,15 @@ export default class Common {
 }(document, 'script', 'facebook-jssdk'));
         `),
 
+        header(
+          ul({class: "list-share"})(
+            li({class: "item facebook"})(),
+            li({class: "item twitter"})(),
+            li({class: "item line"})(),
+            li({class: "item gplus"})()
+          )
+        ),
+
         div({class: "wrapper"})(),
 
         script(`
@@ -88,10 +97,78 @@ export default class Common {
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-XXXXXXX-X', 'auto');
+ga('create', 'UA-2779957-9', 'auto');
 ga('send', 'pageview');
         `),
       )
     );
+
+    // from http://qiita.com/butchi_y/items/f2253ddd504d30686f62
+    (function likeButton() {
+      var likeElm = document.createElement('div');
+      likeElm.innerHTML = `<div class="fb-like" data-action="like" data-href="${url}" data-layout="button_count" data-share="false" data-size="small"></div>`;
+
+      window.addEventListener('load', function() {
+        document.querySelector('.facebook').appendChild(likeElm);
+
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : facebookAppId,
+            xfbml      : true,
+            version    : 'v2.8'
+          });
+        };
+
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = `//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.8&appId=${facebookAppId}`;
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      });
+    })();
+
+    (function tweetButton() {
+      window.addEventListener('load', function() {
+        var tweetElm = document.createElement('div');
+        tweetElm.innerHTML = `<a href="https://twitter.com/share" class="twitter-share-button" data-url="${url}" data-text="${description}" data-lang="ja">ツイート</a>`;
+
+        document.querySelector('.twitter').appendChild(tweetElm);
+
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      });
+    })();
+
+    (function lineButton() {
+      var scriptElm = document.createElement('script');
+      scriptElm.src = '//scdn.line-apps.com/n/line_it/thirdparty/loader.min.js';
+      document.body.appendChild(scriptElm);
+
+      window.addEventListener('load', function() {
+        var lineElm = document.createElement('div');
+        lineElm.innerHTML = '<div class="line-it-button" style="display: none;" data-type="share-a" data-lang="ja" ></div>';
+
+        document.querySelector('.line').appendChild(lineElm);
+
+        LineIt.loadButton();
+      });
+    })();
+
+    (function plusoneButton() {
+      var scriptElm = document.createElement('script');
+      scriptElm.src = 'https://apis.google.com/js/platform.js';
+      scriptElm.innerHTML = "{lang: 'ja', parsetags: 'explicit'}";
+      document.body.appendChild(scriptElm);
+
+      window.addEventListener('load', function() {
+        var gplusElm = document.createElement('div');
+        gplusElm.innerHTML = '<div class="g-plusone" data-size="medium"></div>';
+
+        document.querySelector('.gplus').appendChild(gplusElm);
+
+        gapi.plusone.go();
+      });
+    })();
   }
 }

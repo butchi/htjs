@@ -16,10 +16,31 @@ body {
   font-size: $base-font-size;
   font-family: $sans-serif;
   line-height: 1.5;
+
+  margin: 10px;
 }
 
 main {
   display: block;
+}
+
+.list-share {
+  display: block;
+
+  position: relative;
+
+  font-size: 0;
+
+  .item {
+    font-size: $base-font-size;
+    display: inline-block;
+
+    vertical-align: top;
+
+    + .item {
+      margin-left: 5px;
+    }
+  }
 }
 
 // modules

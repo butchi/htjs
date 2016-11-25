@@ -57,7 +57,20 @@ body {
   font-size: 14px;
   font-size: 1.4rem;
   font-family: YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Meiryo, "メイリオ", sans-serif;
-  line-height: 1.5; }
+  line-height: 1.5;
+  margin: 10px; }
 
 main {
   display: block; }
+
+.list-share {
+  display: block;
+  position: relative;
+  font-size: 0; }
+  .list-share .item {
+    font-size: 14px;
+    font-size: 1.4rem;
+    display: inline-block;
+    vertical-align: top; }
+    .list-share .item + .item {
+      margin-left: 5px; }
