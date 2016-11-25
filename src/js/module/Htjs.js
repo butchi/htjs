@@ -180,6 +180,7 @@ export default class Htjs {
     }　else if(argArr.length > 1) {
       return new HtjsElement({
         tagName: tagName,
+      }).create({
         content: argArr,
       });
     }

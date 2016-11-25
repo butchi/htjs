@@ -164,7 +164,8 @@ var Htjs = function () {
         if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
       } else if (argArr.length > 1) {
         return new HtjsElement({
-          tagName: tagName,
+          tagName: tagName
+        }).create({
           content: argArr
         });
       }
