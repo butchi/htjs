@@ -58,7 +58,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var tagNameArr = ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "command", "datalist", "dd", "del", "details", "dfn", "div", "dl", "doctype", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "menu", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr"];
+var tagNameArr = ["a", "abbr", "address", "area", "article", "aside", "audio", "b", "base", "bdi", "bdo", "blockquote", "body", "br", "button", "canvas", "caption", "cite", "code", "col", "colgroup", "command", "datalist", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "embed", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hr", "html", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "legend", "li", "link", "main", "map", "mark", "menu", "meta", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output", "p", "param", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "script", "section", "select", "small", "source", "span", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "title", "tr", "track", "u", "ul", "var", "video", "wbr"];
 
 var Htjs = function () {
   function Htjs() {
@@ -97,11 +97,52 @@ var Htjs = function () {
   }, {
     key: "element",
     value: function element() {
+      var _this2 = this;
+
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var argArr = opts.argArr;
 
       var tagName = opts.tagName || 'div';
+
+      if (tagName == null) {
+        tagName = 'div';
+      } else if (tagName === 'html') {
+        var _ret = function () {
+          var arg = argArr[0];
+          if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
+            (function () {
+              var htmlElm = document.querySelector('html');
+              Object.keys(arg).forEach(function (key) {
+                htmlElm.setAttribute(key, arg[key]);
+              });
+            })();
+          }
+          return {
+            v: _this2.setup(opts)
+          };
+        }();
+
+        if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+      } else if (tagName === 'head' || tagName === 'body') {
+        return this.setup({
+          tagName: tagName,
+          argArr: argArr
+        });
+      } else {
+        return this.setup(opts);
+      }
+    }
+  }, {
+    key: "setup",
+    value: function setup() {
+      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var argArr = opts.argArr || [];
+
+      var tagName = opts.tagName || 'div';
+
+      if (tagName === 'script') {}
 
       if (argArr.length === 0) {
         return new HtjsElement({
@@ -109,59 +150,53 @@ var Htjs = function () {
           content: null
         });
       } else if (argArr.length === 1) {
-        var _ret = function () {
-          var arg = argArr[0];
-          if (arg == 'null') {
-            return {
-              v: new HtjsElement({
-                tagName: tagName
-              }).create({
-                content: null
-              })
-            };
-          } else if (typeof arg === 'string') {
-            return {
-              v: new HtjsElement({
-                tagName: tagName
-              }).create({
-                content: argArr
-              })
-            };
-          } else if (arg instanceof Array) {
-            return {
-              v: new HtjsElement({
-                tagName: tagName
-              }).create({
-                content: arg
-              })
-            };
-          } else if (arg instanceof HtjsElement) {
-            return {
-              v: new HtjsElement({
-                tagName: tagName
-              }).create({
-                content: argArr
-              })
-            };
-          } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
+        var arg = argArr[0];
+        if (arg == 'null') {
+          return new HtjsElement({
+            tagName: tagName
+          }).create({
+            content: null
+          });
+        } else if (typeof arg === 'string') {
+          return new HtjsElement({
+            tagName: tagName
+          }).create({
+            content: argArr
+          });
+        } else if (arg instanceof Array) {
+          return new HtjsElement({
+            tagName: tagName
+          }).create({
+            content: arg
+          });
+        } else if (arg instanceof HtjsElement) {
+          return new HtjsElement({
+            tagName: tagName
+          }).create({
+            content: argArr
+          });
+        } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
+          var _ret3 = function () {
+            var htjsElement = new HtjsElement({
+              tagName: tagName,
+              attribute: arg
+            });
+
             return {
               v: function v() {
                 for (var _len2 = arguments.length, content = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                   content[_key2] = arguments[_key2];
                 }
 
-                return new HtjsElement({
-                  tagName: tagName,
-                  attribute: arg
-                }).create({
+                return htjsElement.create({
                   content: content
                 });
               }
             };
-          }
-        }();
+          }();
 
-        if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+          if ((typeof _ret3 === "undefined" ? "undefined" : _typeof(_ret3)) === "object") return _ret3.v;
+        }
       } else if (argArr.length > 1) {
         return new HtjsElement({
           tagName: tagName
@@ -195,7 +230,7 @@ var HtjsElement = function () {
       this.elm = document.createElement(this.tagName);
       this.attribute = opts.attribute || {};
 
-      this.setAttribute();
+      return this.setAttribute();
     }
   }, {
     key: "create",
@@ -213,7 +248,7 @@ var HtjsElement = function () {
   }, {
     key: "setAttribute",
     value: function setAttribute() {
-      var _this2 = this;
+      var _this3 = this;
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -232,19 +267,19 @@ var HtjsElement = function () {
 
             var style = styleArr.join(' ');
 
-            _this2.elm.setAttribute(key, style);
+            _this3.elm.setAttribute(key, style);
           })();
         } else {
-          _this2.elm.setAttribute(key, attrLi[key]);
+          _this3.elm.setAttribute(key, attrLi[key]);
         }
       });
 
-      return this.create;
+      return this;
     }
   }, {
     key: "innerHtjs",
     value: function innerHtjs() {
-      var _this3 = this;
+      var _this4 = this;
 
       var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -252,11 +287,13 @@ var HtjsElement = function () {
 
       content.forEach(function (content) {
         if (content == null) {} else if (typeof content === 'string') {
-          _this3.elm.innerHTML += content;
+          _this4.elm.innerHTML += content;
         } else if (content instanceof HtjsElement) {
-          _this3.elm.appendChild(content.elm);
+          _this4.elm.appendChild(content.elm);
         }
       });
+
+      return this;
     }
   }]);
 
@@ -285,6 +322,10 @@ var _Index = require('../page/Index');
 
 var _Index2 = _interopRequireDefault(_Index);
 
+var _PugGithub = require('../page/PugGithub');
+
+var _PugGithub2 = _interopRequireDefault(_PugGithub);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -306,6 +347,10 @@ var Router = function () {
       if ($body.hasClass('page-index')) {
         this.pageIndex = new _Index2.default();
       }
+
+      if ($body.hasClass('page-pug-github')) {
+        this.pagePugGithub = new _PugGithub2.default();
+      }
     }
   }]);
 
@@ -314,7 +359,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":5,"../page/Index":6,"./ns":4}],4:[function(require,module,exports){
+},{"../page/Common":5,"../page/Index":6,"../page/PugGithub":7,"./ns":4}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -342,6 +387,10 @@ var _ns = require('../module/ns');
 
 var _ns2 = _interopRequireDefault(_ns);
 
+var _Htjs = require('../module/Htjs');
+
+var _Htjs2 = _interopRequireDefault(_Htjs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -357,7 +406,49 @@ var Common = function () {
 
   _createClass(Common, [{
     key: 'initialize',
-    value: function initialize() {}
+    value: function initialize() {
+      this.htjs = new _Htjs2.default({
+        prefixStr: ''
+      });
+
+      var url = 'http://butchi.github.io/htjs/';
+      var title = 'HyperText JavaScript';
+      var siteName = 'HTJS';
+      var description = 'HyperText JavaScript Template Engine';
+      var keywords = ['HyperText', 'JavaScript', 'Hyper', 'Text'];
+      var webclipiconUrl = url + 'webclipicon.png';
+      var facebookAppId = '903742642995033';
+      var ogpImageUrl = url + 'ogp.png';
+      var ogpImageWidth = 1200;
+      var ogpImageHeight = 600;
+      var ogpType = 'website';
+      var ogpLocale = 'ja_JP';
+
+      html({ lang: "ja" })(head(meta({ charset: "utf-8" })(),
+
+      // meta
+      meta({ name: "description", content: '' + description })(), meta({ name: "keywords", content: keywords.join(', ') })(), link({ rel: "shortcut icon", href: 'favicon.ico', type: "image/vnd.microsoft.icon" })(), link({ rel: "icon", href: 'favicon.ico', type: "image/vnd.microsoft.icon" })(), meta({ "http-equiv": "X-UA-Compatible", content: "IE=Edge" })(),
+
+      // smartphone meta
+      meta({ name: "viewport", content: "width=device-width" })(), meta({ name: "apple-mobile-web-app-capable", content: "yes" })(), meta({ name: "apple-mobile-web-app-status-bar-style", content: 'default' })(), link({ rel: "apple-touch-icon", href: webclipiconUrl })(),
+
+      // ogp
+      meta({ property: "fb:app_id", content: facebookAppId })(), meta({ property: "og:url", content: url })(), meta({ property: "og:image", content: ogpImageUrl })(), meta({ property: "og:image:width", content: ogpImageWidth })(), meta({ property: "og:image:height", content: ogpImageHeight })(), meta({ property: "og:type", content: ogpType })(), meta({ property: "og:title", content: title })(), meta({ property: "og:site_name", content: siteName })(), meta({ property: "og:description", content: description })(), meta({ property: "og:locale", content: ogpLocale })(),
+
+      // twitter card
+      meta({ property: "twitter:card", content: ogpImageUrl ? "summary_large_image" : "summary" })(), meta({ property: "twitter:title", content: title })(), meta({ property: "twitter:description", content: description })(), meta({ property: "twitter:image", content: ogpImageUrl })(),
+      // meta({property: "twitter:site", content: twitterCardOwner})(),
+      // meta({property: "twitter:creator", content: twitterCardOwner})(),
+
+      // canonical url
+      link({ rel: "canonical", href: url })(),
+
+      // stylesheet
+      link({ rel: "stylesheet", href: "css/style.css" })()), body({ class: 'page-index' })(div({ id: "fb-root" }), script('\n(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.7&appId=";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, \'script\', \'facebook-jssdk\'));\n        '), div({ class: "wrapper" })(), script('\n<script>\n  (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\n  ga(\'create\', \'UA-XXXXXXX-X\', \'auto\');\n  ga(\'send\', \'pageview\');\n</script>\n        '),
+
+      // javascript
+      script({ src: "js/main.js" })()));
+    }
   }]);
 
   return Common;
@@ -365,7 +456,7 @@ var Common = function () {
 
 exports.default = Common;
 
-},{"../module/ns":4}],6:[function(require,module,exports){
+},{"../module/Htjs":2,"../module/ns":4}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -416,5 +507,66 @@ var Index = function () {
 }();
 
 exports.default = Index;
+
+},{"../module/Htjs":2,"../module/ns":4}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ns = require('../module/ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
+var _Htjs = require('../module/Htjs');
+
+var _Htjs2 = _interopRequireDefault(_Htjs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PugGithub = function () {
+  function PugGithub() {
+    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, PugGithub);
+
+    this.initialize();
+  }
+
+  _createClass(PugGithub, [{
+    key: 'initialize',
+    value: function initialize() {
+      this.htjs = new _Htjs2.default({
+        prefixStr: ''
+      });
+
+      document.querySelector('html').appendChild(html({ lang: "ja" })(head(title("Htjs"), script({ type: "text/javascript" })("if (foo) bar(1 + 5)")), body(h1("Htjs - node template engine"), div({ id: "container", class: "col" })(p("すごいぞ！"), p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！")))).elm);
+      // document.querySelector('html').innerHTML = html({lang: "ja"})(
+      //   head(
+      //     title("Htjs"),
+      //     script({type: "text/javascript"})(
+      //       "if (foo) bar(1 + 5)"
+      //     )
+      //   ),
+      //   body(
+      //     h1("Htjs - node template engine"),
+      //     div({id: "container", class: "col"})(
+      //       p("すごいぞ！"),
+      //       p("Htjsはかんたんできょうりょくなてんぷれーとえんじんだぞ！")
+      //     )
+      //   )
+      // );
+    }
+  }]);
+
+  return PugGithub;
+}();
+
+exports.default = PugGithub;
 
 },{"../module/Htjs":2,"../module/ns":4}]},{},[1]);
