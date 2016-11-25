@@ -19,9 +19,9 @@ export default class Index {
             "これは",
             a({href: "http://example.com", target: "_blank"})("アンカー"),
             "の",
+            br(),
             span("テ", "ス", "ト"),
             "です。",
-            br()
           ),
           span({
             style: {
