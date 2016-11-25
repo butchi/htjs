@@ -373,8 +373,8 @@ var Common = function () {
       var webclipiconUrl = url + 'webclipicon.png';
       var facebookAppId = '903742642995033';
       var ogpImageUrl = url + 'ogp.png';
-      var ogpImageWidth = 1200;
-      var ogpImageHeight = 600;
+      var ogpImageWidth = 128;
+      var ogpImageHeight = 128;
       var ogpType = 'website';
       var ogpLocale = 'ja_JP';
 

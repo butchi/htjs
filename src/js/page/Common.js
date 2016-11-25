@@ -19,8 +19,8 @@ export default class Common {
     const webclipiconUrl = `${url}webclipicon.png`;
     const facebookAppId = '903742642995033';
     const ogpImageUrl = `${url}ogp.png`;
-    const ogpImageWidth = 1200;
-    const ogpImageHeight = 600;
+    const ogpImageWidth = 128;
+    const ogpImageHeight = 128;
     const ogpType = 'website';
     const ogpLocale = 'ja_JP';
 
