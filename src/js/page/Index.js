@@ -21,7 +21,7 @@ export default class Index {
             "の",
             br(),
             span("テ", "ス", "ト"),
-            "です。",
+            "です。"
           ),
           span({
             style: {
