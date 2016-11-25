@@ -136,6 +136,21 @@ export default class Htjs {
 
     let tagName = opts.tagName || 'div';
 
+
+      return;
+    }
+
+    return this.setup(opts);
+  }
+
+  setup(opts = {}) {
+    let argArr = opts.argArr || [];
+
+    let tagName = opts.tagName || 'div';
+
+    if(tagName === 'script') {
+    }
+
     if(argArr.length === 0) {
       return new HtjsElement({
         tagName,
@@ -168,13 +183,15 @@ export default class Htjs {
           content: argArr,
         });
       } else if(typeof arg === 'object') {
+        let htjsElement = new HtjsElement({
+          tagName,
+          attribute: arg,
+        });
+
         return (...content) => {
-          return new HtjsElement({
-            tagName,
-            attribute: arg,
-          }).create({
+          return htjsElement.create({
             content: content,
-          })
+          });
         }
       }
     }　else if(argArr.length > 1) {
@@ -197,7 +214,7 @@ class HtjsElement {
     this.elm = document.createElement(this.tagName);
     this.attribute = opts.attribute || {};
 
-    this.setAttribute();
+    return this.setAttribute();
   }
 
   create(opts = {}) {
@@ -231,7 +248,7 @@ class HtjsElement {
       }
     });
 
-    return this.create;
+    return this;
   }
 
   innerHtjs(opts = {}) {
@@ -245,5 +262,7 @@ class HtjsElement {
         this.elm.appendChild(content.elm);
       }
     });
+
+    return this;
   }
 }
