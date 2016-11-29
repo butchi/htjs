@@ -11,7 +11,11 @@ export default class Index {
       prefixStr: '',
     });
 
-    document.querySelector('.wrapper').append(
+    let wrapperElm = document.createElement('div');
+    wrapperElm.classList.add('wrapper');
+    document.querySelector('body').append(wrapperElm);
+
+    wrapperElm.append(
       div(
         div({class: "test"})(
           h1("HTJS(仮)"),
