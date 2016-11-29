@@ -2,6 +2,7 @@ import ns from './ns';
 import PageCommon from '../page/Common';
 import PageIndex from '../page/Index';
 import PagePugGithub from '../page/PugGithub';
+import PageJquery from '../page/Jquery';
 
 export default class Router {
   constructor() {
@@ -19,6 +20,10 @@ export default class Router {
 
     if(bodyElm.classList.contains('page-pug-github')) {
       this.pagePugGithub = new PagePugGithub();
+    }
+
+    if(bodyElm.classList.contains('page-jquery')) {
+      this.pagePugGithub = new PageJquery();
     }
   }
 }

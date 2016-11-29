@@ -263,6 +263,10 @@ var _PugGithub = require('../page/PugGithub');
 
 var _PugGithub2 = _interopRequireDefault(_PugGithub);
 
+var _Jquery = require('../page/Jquery');
+
+var _Jquery2 = _interopRequireDefault(_Jquery);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -288,6 +292,10 @@ var Router = function () {
       if (bodyElm.classList.contains('page-pug-github')) {
         this.pagePugGithub = new _PugGithub2.default();
       }
+
+      if (bodyElm.classList.contains('page-jquery')) {
+        this.pagePugGithub = new _Jquery2.default();
+      }
     }
   }]);
 
@@ -296,7 +304,7 @@ var Router = function () {
 
 exports.default = Router;
 
-},{"../page/Common":4,"../page/Index":5,"../page/PugGithub":6,"./ns":3}],3:[function(require,module,exports){
+},{"../page/Common":4,"../page/Index":5,"../page/Jquery":6,"../page/PugGithub":7,"./ns":3}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -534,6 +542,48 @@ var _ns = require('../module/ns');
 
 var _ns2 = _interopRequireDefault(_ns);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Index = function () {
+  function Index() {
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+    _classCallCheck(this, Index);
+
+    this.initialize();
+  }
+
+  _createClass(Index, [{
+    key: 'initialize',
+    value: function initialize() {
+      $('body').append($('<div>').addClass('wrapper').append($('<div>').append($('<div>').addClass('test').append($('<h1>').text('HTJS(仮)')).append($('<div>').addClass('content').append('これは').append($('<a>').attr({ href: 'http://example.com', target: '_blank' }).text('アンカー')).append('の').append('<br>').append($('<span>').append('テ').append('ス').append('ト')).append('です。')).append($('<span>').css({
+        "color": "#f00",
+        "font-weight": "bold",
+        "font-size": "20px"
+      }).append('スタイルも効いた！')).append($('<span>').append('うまくいってよかった！')))));
+    }
+  }]);
+
+  return Index;
+}();
+
+exports.default = Index;
+
+},{"../module/ns":3}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _ns = require('../module/ns');
+
+var _ns2 = _interopRequireDefault(_ns);
+
 var _Htjs = require('../module/Htjs');
 
 var _Htjs2 = _interopRequireDefault(_Htjs);
@@ -570,7 +620,7 @@ var PugGithub = function () {
 
 exports.default = PugGithub;
 
-},{"../module/Htjs":1,"../module/ns":3}],7:[function(require,module,exports){
+},{"../module/Htjs":1,"../module/ns":3}],8:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -616,4 +666,4 @@ var Main = function () {
 
 _ns2.default.main = new Main();
 
-},{"./module/Router":2,"./module/ns":3}]},{},[7]);
+},{"./module/Router":2,"./module/ns":3}]},{},[8]);
