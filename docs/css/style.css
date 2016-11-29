@@ -63,6 +63,10 @@ body {
 main {
   display: block; }
 
+h1 {
+  font-size: 40px;
+  font-size: 4rem; }
+
 .list-share {
   display: block;
   position: relative;

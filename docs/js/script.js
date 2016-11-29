@@ -51,8 +51,6 @@ var Htjs = function () {
   }, {
     key: "element",
     value: function element() {
-      var _this2 = this;
-
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var argArr = opts.argArr;
@@ -61,28 +59,6 @@ var Htjs = function () {
 
       if (tagName == null) {
         tagName = 'div';
-      } else if (tagName === 'html') {
-        var _ret = function () {
-          var arg = argArr[0];
-          if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
-            (function () {
-              var htmlElm = document.querySelector('html');
-              Object.keys(arg).forEach(function (key) {
-                htmlElm.setAttribute(key, arg[key]);
-              });
-            })();
-          }
-          return {
-            v: _this2.setup(opts)
-          };
-        }();
-
-        if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
-      } else if (tagName === 'head' || tagName === 'body') {
-        document.querySelector(tagName).appendChild(this.setup({
-          tagName: tagName,
-          argArr: argArr
-        }).elm);
       } else {
         return this.setup(opts);
       }
@@ -130,7 +106,7 @@ var Htjs = function () {
             content: argArr
           });
         } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === 'object') {
-          var _ret3 = function () {
+          var _ret = function () {
             var htjsElement = new HtjsElement({
               tagName: tagName,
               attribute: arg
@@ -149,7 +125,7 @@ var Htjs = function () {
             };
           }();
 
-          if ((typeof _ret3 === "undefined" ? "undefined" : _typeof(_ret3)) === "object") return _ret3.v;
+          if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
         }
       } else if (argArr.length > 1) {
         return new HtjsElement({
@@ -181,7 +157,14 @@ var HtjsElement = function () {
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       this.tagName = opts.tagName || 'div';
-      this.elm = document.createElement(this.tagName);
+
+      if (this.tagName === 'html' || this.tagName === 'head' || this.tagName === 'body') {
+        this.elm = document.querySelector(this.tagName);
+        this.elm.innerHTML = '';
+      } else {
+        this.elm = document.createElement(this.tagName);
+      }
+
       this.attribute = opts.attribute || {};
 
       return this.setAttribute();
@@ -202,7 +185,7 @@ var HtjsElement = function () {
   }, {
     key: "setAttribute",
     value: function setAttribute() {
-      var _this3 = this;
+      var _this2 = this;
 
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -221,10 +204,10 @@ var HtjsElement = function () {
 
             var style = styleArr.join(' ');
 
-            _this3.elm.setAttribute(key, style);
+            _this2.elm.setAttribute(key, style);
           })();
         } else {
-          _this3.elm.setAttribute(key, attrLi[key]);
+          _this2.elm.setAttribute(key, attrLi[key]);
         }
       });
 
@@ -233,7 +216,7 @@ var HtjsElement = function () {
   }, {
     key: "innerHtjs",
     value: function innerHtjs() {
-      var _this4 = this;
+      var _this3 = this;
 
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -241,9 +224,9 @@ var HtjsElement = function () {
 
       content.forEach(function (content) {
         if (content == null) {} else if (typeof content === 'string') {
-          _this4.elm.innerHTML += content;
+          _this3.elm.innerHTML += content;
         } else if (content instanceof HtjsElement) {
-          _this4.elm.appendChild(content.elm);
+          _this3.elm.appendChild(content.elm);
         }
       });
 
@@ -398,7 +381,7 @@ var Common = function () {
       link({ rel: "canonical", href: url })(),
 
       // stylesheet
-      link({ rel: "stylesheet", href: "css/style.css" })()), body(div({ id: "fb-root" }), script('\n(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.7&appId=";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, \'script\', \'facebook-jssdk\'));\n        '), header(ul({ class: "list-share" })(li({ class: "item facebook" })(), li({ class: "item twitter" })(), li({ class: "item line" })(), li({ class: "item gplus" })())), div({ class: "wrapper" })(), script('\n(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\nm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\nga(\'create\', \'UA-2779957-9\', \'auto\');\nga(\'send\', \'pageview\');\n        ')));
+      link({ rel: "stylesheet", href: "css/style.css" })()), body(div({ id: "fb-root" }), script('\n(function(d, s, id) {\n  var js, fjs = d.getElementsByTagName(s)[0];\n  if (d.getElementById(id)) return;\n  js = d.createElement(s); js.id = id;\n  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.7&appId=";\n  fjs.parentNode.insertBefore(js, fjs);\n}(document, \'script\', \'facebook-jssdk\'));\n        '), header(ul({ class: "list-share" })(li({ class: "item facebook" })(), li({ class: "item twitter" })(), li({ class: "item line" })(), li({ class: "item gplus" })())), script('\n(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\nm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\nga(\'create\', \'UA-2779957-9\', \'auto\');\nga(\'send\', \'pageview\');\n        ')));
 
       // from http://qiita.com/butchi_y/items/f2253ddd504d30686f62
       (function likeButton() {
@@ -572,7 +555,9 @@ var PugGithub = function () {
       });
 
       // from https://github.com/pugjs/pug
-      document.querySelector('html').appendChild(html({ lang: "ja" })(head(title("Htjs"), script({ type: "text/javascript" })("if (foo) bar(1 + 5)")), body(h1("Htjs - node template engine"), div({ id: "container", class: "col" })(p("すごいぞ！"), p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！")))).elm);
+      head(title("Htjs"), link({ rel: "stylesheet", href: "css/style.css" })(), script({ type: "text/javascript" })("if (foo) bar(1 + 5)"));
+
+      document.querySelector('body').appendChild(div({ class: "wrapper" })(h1("Htjs - node template engine"), div({ id: "container", class: "col" })(p("すごいぞ！"), p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！"))).elm);
     }
   }]);
 
