@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -16,7 +16,7 @@ var tagNameArr = ["a", "abbr", "address", "area", "article", "aside", "audio", "
 
 var Htjs = function () {
   function Htjs() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Htjs);
 
@@ -53,7 +53,7 @@ var Htjs = function () {
     value: function element() {
       var _this2 = this;
 
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var argArr = opts.argArr;
 
@@ -90,7 +90,7 @@ var Htjs = function () {
   }, {
     key: "setup",
     value: function setup() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var argArr = opts.argArr || [];
 
@@ -168,7 +168,7 @@ exports.default = Htjs;
 
 var HtjsElement = function () {
   function HtjsElement() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, HtjsElement);
 
@@ -178,7 +178,7 @@ var HtjsElement = function () {
   _createClass(HtjsElement, [{
     key: "initialize",
     value: function initialize() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       this.tagName = opts.tagName || 'div';
       this.elm = document.createElement(this.tagName);
@@ -189,7 +189,7 @@ var HtjsElement = function () {
   }, {
     key: "create",
     value: function create() {
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var content = opts.content || [];
 
@@ -204,7 +204,7 @@ var HtjsElement = function () {
     value: function setAttribute() {
       var _this3 = this;
 
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var attrLi = this.attribute || {};
       Object.keys(attrLi).forEach(function (key) {
@@ -235,7 +235,7 @@ var HtjsElement = function () {
     value: function innerHtjs() {
       var _this4 = this;
 
-      var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var content = opts.content || [];
 
@@ -351,7 +351,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Common = function () {
   function Common() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Common);
 
@@ -430,7 +430,7 @@ var Common = function () {
       (function tweetButton() {
         window.addEventListener('load', function () {
           var tweetElm = document.createElement('div');
-          tweetElm.innerHTML = '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + url + '" data-text="' + description + '" data-lang="ja">\u30C4\u30A4\u30FC\u30C8</a>';
+          tweetElm.innerHTML = '<a href="https://twitter.com/share" class="twitter-share-button" data-url="' + url + '" data-text="' + description + '" data-lang="ja">ツイート</a>';
 
           document.querySelector('.twitter').appendChild(tweetElm);
 
@@ -505,7 +505,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Index = function () {
   function Index() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Index);
 
@@ -557,7 +557,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var PugGithub = function () {
   function PugGithub() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, PugGithub);
 
@@ -600,7 +600,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Main = function () {
   function Main() {
-    var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Main);
 
