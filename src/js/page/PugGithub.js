@@ -12,22 +12,24 @@ export default class PugGithub {
     });
 
     // from https://github.com/pugjs/pug
-    document.querySelector('html').appendChild(
-      html({lang: "ja"})(
-        head(
-          title("Htjs"),
-          script({type: "text/javascript"})(
-            "if (foo) bar(1 + 5)"
-          )
-        ),
-        body(
-          h1("Htjs - node template engine"),
-          div({id: "container", class: "col"})(
-            p("すごいぞ！"),
-            p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！")
-          )
+    head(
+      title("Htjs"),
+
+      link({rel: "stylesheet", href: "css/style.css"})(),
+
+      script({type: "text/javascript"})(
+        "if (foo) bar(1 + 5)"
+      )
+    );
+
+    document.querySelector('body').appendChild(
+      div({class: "wrapper"})(
+        h1("Htjs - node template engine"),
+        div({id: "container", class: "col"})(
+          p("すごいぞ！"),
+          p("Htjsはかんたんできょうりょくなテンプレートエンジンだぞ！")
         )
       ).elm
-    )
+    );
   }
 }

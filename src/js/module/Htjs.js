@@ -137,20 +137,6 @@ export default class Htjs {
 
     if(tagName == null) {
       tagName = 'div';
-    } else if(tagName === 'html') {
-      let arg = argArr[0];
-      if(typeof arg === 'object') {
-        let htmlElm = document.querySelector('html');
-        Object.keys(arg).forEach((key) => {
-          htmlElm.setAttribute(key, arg[key]);
-        });
-      }
-      return this.setup(opts);
-    } else if(tagName === 'head' || tagName === 'body') {
-      document.querySelector(tagName).appendChild(this.setup({
-        tagName,
-        argArr,
-      }).elm);
     } else {
       return this.setup(opts);
     }
@@ -224,7 +210,14 @@ class HtjsElement {
 
   initialize(opts = {}) {
     this.tagName = opts.tagName || 'div';
-    this.elm = document.createElement(this.tagName);
+
+    if(this.tagName === 'html' || this.tagName === 'head' || this.tagName === 'body') {
+      this.elm = document.querySelector(this.tagName);
+      this.elm.innerHTML = '';
+    } else {
+      this.elm = document.createElement(this.tagName);
+    }
+
     this.attribute = opts.attribute || {};
 
     return this.setAttribute();
