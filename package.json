@@ -1,18 +1,19 @@
 {
   "name": "htjs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Hyper Text JavaScript",
-  "main": "gulpfile.babel.js",
+  "main": "index.js",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=18.16.1"
   },
   "scripts": {
+    "start": "node index"
   },
   "keywords": [
     "html"
   ],
-  "author": "IWABUCHI Yuuki",
-  "license": "GNUGPL",
+  "author": "IWABUCHI Yu(u)ki butchi",
+  "license": "MIT",
   "devDependencies": {
   }
 }
